@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>제미나이 활용법</title>
+    <!-- Paperlogy 지정 폰트 시스템 연동 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/subsets/Paperlogy-dynamic-subset.css" type="text/css"/>
+    <style>
+        /* A4 인쇄 및 PDF 내보내기 최적화 설정 */
+        @page {
+            size: A4;
+            margin: 25mm 15mm 20mm 15mm;
+            @top-left {
+                content: "✠ VISION AI | 제미나이 활용법";
+                font-family: "Paperlogy", sans-serif;
+                font-size: 10pt;
+                font-weight: 700;
+                color: #2E7D32;
+                border-bottom: 2px solid #2E7D32;
+                width: 100%;
+                padding-bottom: 5px;
+            }
+            @bottom-center {
+                content: "- " counter(page) " -";
+                font-family: "Paperlogy", sans-serif;
+                font-size: 9pt;
+                color: #3d403a;
+            }
+        }
+
+        body {
+            font-family: "Paperlogy", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #3d403a;
+            margin: 0;
+            padding: 0;
+            background-color: #fbfaf5; /* Earthy Green 웜 오프화이트 배경 */
+            word-break: keep-all; /* 단어 단위 줄바꿈 제어 */
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* 대시보드 구조의 좌측 고정형 메뉴 바 */
+        .sidebar {
+            width: 280px;
+            background-color: #2E7D32; /* 딥 그린 테마 컬러 */
+            color: #ffffff;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 25px 20px;
+            box-shadow: 3px 0 10px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        @media print {
+            .sidebar { display: none; } /* 인쇄 시 사이드바 제외 */
+            .main-content { margin-left: 0 !important; padding: 0 !important; }
+        }
+
+        .sidebar-logo {
+            font-size: 11pt;
+            font-weight: 700;
+            color: #ffffff;
+            border-bottom: 2px solid #a5d6a7;
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 6px;
+        }
+
+        .sidebar-menu a {
+            color: #e8f5e9;
+            text-decoration: none;
+            font-size: 9.5pt;
+            display: block;
+            padding: 10px 14px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover {
+            background-color: #1b5e20;
+            color: #ffffff;
+            padding-left: 18px;
+        }
+
+        /* 우측 메인 콘텐츠 레이아웃 */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px 50px;
+            min-height: 100vh;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 35px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+            border: 1px solid #e8e8e2;
+        }
+
+        h1 {
+            font-size: 26pt;
+            color: #1b5e20;
+            margin: 0 0 10px 0;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+        }
+
+        .instructor-tag {
+            font-size: 12pt;
+            color: #3d403a;
+            font-weight: 600;
+            display: inline-block;
+            padding: 5px 18px;
+            background-color: #e8f5e9;
+            border-radius: 20px;
+            border: 1px solid #a5d6a7;
+        }
+
+        .module-container {
+            margin-bottom: 35px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            border: 1px solid #e8e8e2;
+            scroll-margin-top: 30px;
+            page-break-inside: auto;
+        }
+
+        h2 {
+            font-size: 14pt;
+            color: #ffffff;
+            background-color: #2E7D32;
+            padding: 10px 16px;
+            margin: 0 0 20px 0;
+            border-radius: 6px;
+            font-weight: 700;
+            page-break-after: avoid;
+            page-break-inside: avoid;
+        }
+
+        /* 양쪽 정렬을 숨기고 깔끔한 수직 피드로 정렬하는 단일 열 스택 시스템 */
+        .prompt-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .prompt-card {
+            background-color: #fbfaf5;
+            border: 1px solid #e0e0d6;
+            border-radius: 8px;
+            padding: 16px 20px;
+            page-break-inside: avoid; /* 인쇄 시 중간 잘림 결함 방지 */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .prompt-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            border-color: #a5d6a7;
+            background-color: #ffffff;
+        }
+
+        .prompt-id {
+            font-size: 9.5pt;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 6px;
+            display: block;
+            border-bottom: 1px dashed #c8e6c9;
+            padding-bottom: 4px;
+        }
+
+        .prompt-text {
+            font-size: 9.5pt;
+            color: #3d403a;
+            line-height: 1.55;
+            font-weight: 500;
+            text-align: justify;
+        }
+
+        .prompt-text::before { content: '"'; color: #81c784; font-weight: bold; }
+        .prompt-text::after { content: '"'; color: #81c784; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <!-- 고정형 대시보드 내비게이션 -->
+    <div class="sidebar">
+        <div class="sidebar-logo">✠ VISION AI | 제미나이 활용법</div>
+        <ul class="sidebar-menu">
+            <li><a href="#mod1">01. 이미지 만들기</a></li>
+            <li><a href="#mod2">02. 동영상 만들기</a></li>
+            <li><a href="#mod3">03. Canvas 활용</a></li>
+            <li><a href="#mod4">04. Deep Research</a></li>
+            <li><a href="#mod5">05. 음악 만들기</a></li>
+            <li><a href="#mod6">06. 가이드 학습</a></li>
+            <li><a href="#mod7">07. Gems 비서 구축</a></li>
+            <li><a href="#mod8">08. New Gem 모바일</a></li>
+        </ul>
+    </div>
+
+    <!-- 메인 대시보드 레이아웃 공간 -->
+    <div class="main-content">
+        <div class="header-section">
+            <h1>제미나이 활용법</h1>
+            <div class="instructor-tag">강사: 곽한영 대표(비전AI교육연구소)</div>
+        </div>
+
+        <!-- 01. 이미지 만들기 -->
+        <div class="module-container" id="mod1">
+            <h2>01. 이미지 만들기 (Image Generation)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 1</span><span class="prompt-text">시편 23편의 '푸른 풀밭과 쉴 만한 물가'를 시네마틱 풍경화로 표현해 줘. 부드러운 아침 햇살과 평화로운 양떼, 16:9 비율.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 2</span><span class="prompt-text">부활절 강단 현수막용 배경. 돌무덤 문이 열려 있고 그 안에서 눈부신 영광의 빛이 뿜어져 나오는 극적인 연출.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 3</span><span class="prompt-text">물매를 들고 서 있는 소년 다윗과 거대한 골리앗의 실루엣을 픽사 스타일 3D 애니메이션으로 역동적으로 그려줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 4</span><span class="prompt-text">1세기 에베소의 거대한 원형 극장과 고대 시장의 모습을 역사적 고증에 기반한 사실적인 사진 스타일로 렌더링해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 5</span><span class="prompt-text">도시 야경을 내려다보며 기도하는 청년의 뒷모습. 로파이(Lo-Fi) 감성의 서정적인 일러스트, 인스타그램용 1:1 비율.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 6</span><span class="prompt-text">'성령의 임재' 개념 시각화. 따뜻한 불꽃의 이미지와 부드러운 바람의 결이 유기적으로 섞이는 현대적 추상화.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 7</span><span class="prompt-text">비 온 뒤 맑게 갠 하늘 아래 피어난 작은 들꽃 한 송이. 심방용 위로 카드에 어울리는 파스텔톤 수채화 분위기.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 8</span><span class="prompt-text">'광야에 길을 내다' 주제의 수련회 로고. 나침반과 십자가가 기하학적으로 결합된 미니멀한 벡터 디자인.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 9</span><span class="prompt-text">우드톤 거실에서 5~6명의 성도들이 둥글게 모여 앉아 커피를 마시며 웃고 있는 따뜻한 색감의 구역예배 삽화.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 10</span><span class="prompt-text">짙은 네이비 가죽 질감 배경에 금박으로 고급스럽게 새겨진 올리브 가지 패턴의 개인 묵상 노트 표지 디자인.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 11</span><span class="prompt-text">말씀 캘리그라피 배경화면. '여호와는 나의 목자시니 내게 부족함이 없으리로다' 문구를 담은 은은한 새벽 숲 사진.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 12</span><span class="prompt-text">성막의 성소 내부 전경. 일곱 금촛대의 불빛이 떡상과 분향단을 비추고 있는 거룩하고 엄숙한 3D 렌더링 이미지.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 13</span><span class="prompt-text">오병이어의 기적 순간. 어린아이의 작은 도시락에서 보리떡과 물고기가 끝없이 나누어지는 따뜻한 유화 화풍의 그림.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 14</span><span class="prompt-text">오순절 마가 다락방의 성령 강림. 성도들의 머리 위에 불의 혀처럼 갈라지는 빛들이 임하는 영적이고 신비로운 명화 스타일.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 15</span><span class="prompt-text">추수감사절 강단 장식 아이디어 스케치. 잘 익은 과일과 곡식 단이 십자가 아래 풍성하게 놓인 모던한 인테리어 디자인.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 16</span><span class="prompt-text">탕자의 귀향 장면. 거친 옷을 입은 아들을 조건 없이 끌어안고 눈물 흘리는 아버지의 자애로운 모습을 담은 감동적인 삽화.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 17</span><span class="prompt-text">선한 사마리아인의 비유. 길가에 쓰러진 나그네를 정성껏 치료하며 나귀에 태우는 모습을 묘사한 따뜻한 가을 톤 일러스트.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 18</span><span class="prompt-text">예수님의 산상수훈 전경. 갈릴리 호수가 내려다보이는 푸른 언덕에 수많은 무리가 모여 말씀을 듣는 평화로운 수채화.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 19</span><span class="prompt-text">교회 주보용 표지 일러스트. 현대적인 교회 건물과 다양한 세대의 성도들이 나란히 손을 잡고 예배당으로 들어가는 모습.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 20</span><span class="prompt-text">영적 전쟁 주제의 설교 포스터. 어둠 속에서 빛나는 믿음의 방패와 성령의 검을 들고 서 있는 전사의 미니멀한 그래픽.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 21</span><span class="prompt-text">가정 예배 활성화를 위한 삽화. 엄마, 아빠, 아이들이 침대 가에 모여 손을 잡고 행복하게 기도하는 밤 풍경 그림.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 22</span><span class="prompt-text">성경 속 '겨자씨와 누룩'의 비유를 은유적으로 표현한 디자인. 작은 씨앗에서 자라나 새들이 깃드는 거대한 나무의 형상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 23</span><span class="prompt-text">호렙산 가시떨기 불꽃 앞에 신을 벗고 엎드린 모세의 모습을 신비롭고 웅장한 판타지 아트 스타일로 표현해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 24</span><span class="prompt-text">새 예루살렘 성의 환상. 보석으로 빛나는 성벽과 수정같이 맑은 생수의 강이 흐르는 모습을 영롱하게 표현한 시각 자료.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 25</span><span class="prompt-text">기독교 환경 주일용 포스터. 하나님의 창조 세계를 돌보는 인간의 손길을 상징하는 푸른 지구와 새싹 일러스트.</span></div>
+            </div>
+        </div>
+
+        <!-- 02. 동영상 만들기 -->
+        <div class="module-container" id="mod2">
+            <h2>02. 동영상 만들기 (Video Generation)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 26</span><span class="prompt-text">우주에서 지구로 부드럽게 줌인(Zoom-in) 되는 웅장한 시네마틱 영상. 천천히 회전하는 구름과 일출, 10초 루프.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 27</span><span class="prompt-text">어두운 예배당 안에서 촛불 하나가 일렁이며 조용히 타오르는 초근접(Macro) 샷. 기도 시간에 투사할 30초 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 28</span><span class="prompt-text">거대한 홍해가 양쪽으로 벽을 이루며 갈라지고 그 사이로 마른 땅이 드러나는 기적의 순간을 담은 5초 영화 특수효과.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 29</span><span class="prompt-text">이른 아침 안개가 자욱한 소나무 숲길을 1인칭 시점(POV)으로 천천히 걸어가는 차분하고 평화로운 묵상용 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 30</span><span class="prompt-text">고풍스러운 시골 예배당 지붕 위로 함박눈이 부드럽게 내리고 창문으로 노란 불빛이 새어 나오는 감성적인 겨울 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 31</span><span class="prompt-text">황무지에 씨앗이 심긴 후 빠른 타임랩스로 자라나 거대한 나무가 되고 꽃을 피우는 성장 테마의 15초 하이퍼랩스.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 32</span><span class="prompt-text">거센 파도가 몰아치는 밤바다 위에서 작은 배가 흔들리다 이내 먹구름이 걷히고 한 줄기 빛이 내리쬐는 극적 전환 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 33</span><span class="prompt-text">맑고 투명한 물결이 잔잔하게 동심원을 그리며 퍼져 나가는 슬로우 모션 영상. 세례식에 어울리는 정결한 분위기.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 34</span><span class="prompt-text">황금빛으로 가득 찬 밀밭이 가을 바람에 파도치듯 일렁이는 모습을 드론으로 촬영한 듯한 부드러운 항공 뷰 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 35</span><span class="prompt-text">수많은 황금빛 입자들이 화면 중앙으로 모여들며 서서히 십자가 형상을 이루고 은은하게 맥동(Pulse)하는 모션 그래픽.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 36</span><span class="prompt-text">성경책의 책장이 바람에 한 장씩 천천히 넘어가다 특정 구절 위로 부드러운 조명이 집중되는 서정적인 8초 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 37</span><span class="prompt-text">가을 산의 단풍잎들이 바람에 흩날리며 바닥에 떨어지는 모습을 슬로우 모션으로 담은 인생 및 시간 주제의 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 38</span><span class="prompt-text">모래시계 속의 모래가 천천히 흘러내리며 바닥에 쌓이는 모습을 클로즈업한 송구영신 예배용 시간 테마 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 39</span><span class="prompt-text">어둠이 짙게 깔린 방 안에서 스탠드 불빛을 켜고 성경을 읽어 내려가는 목회자의 손과 책장을 담은 따뜻한 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 40</span><span class="prompt-text">차가운 대지 위로 눈이 녹아내리고 그 틈 사이로 초록색 새싹이 힘차게 돋아나는 봄철 생명 테마의 매크로 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 41</span><span class="prompt-text">산 정상에서 바라본 운해(바다 구름)가 폭포처럼 아래로 흘러내리는 장엄하고 초현실적인 자연 풍경 10초 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 42</span><span class="prompt-text">넓은 광야 한가운데서 한 남자가 하늘을 향해 손을 들고 서 있을 때, 그의 발끝에서부터 푸른 잔디가 번져나가는 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 43</span><span class="prompt-text">맑은 하늘에 갑자기 일곱 색깔 무지개가 선명하게 떠오르며 하나님의 언약을 상징적으로 보여주는 부드러운 카메라 무빙 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 44</span><span class="prompt-text">대장장이가 뜨거운 불 속에서 철을 달구고 망치로 두드려 정교한 도구로 제련해 나가는 연단 테마의 역동적인 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 45</span><span class="prompt-text">잔잔한 호수 표면에 하늘의 구름과 별들이 거울처럼 그대로 투영되어 신비로운 분위기를 자아내는 밤 풍경 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 46</span><span class="prompt-text">도시의 바쁜 교차로에서 사람들이 빠르게 지나가는 모습을 타임랩스로 보여주며 현대인의 분주함을 표현한 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 47</span><span class="prompt-text">어린아이의 손을 늙은 할아버지의 손이 따뜻하게 맞잡으며 세대 간의 신앙 전수를 상징적으로 보여주는 감동적인 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 48</span><span class="prompt-text">고대 양반지 두루마리가 양옆으로 스르륵 열리며 성경 원어 글자들이 빛나며 떠오르는 인트로용 6초 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 49</span><span class="prompt-text">새들의 무리가 하늘을 향해 V자를 그리며 자유롭게 날아가는 모습을 로우 앵글로 촬영한 선교 및 비전 테마 영상.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 50</span><span class="prompt-text">메마른 가뭄의 땅 위로 굵은 단비가 떨어지기 시작하며 흙먼지가 가라앉고 대지가 촉촉해지는 해갈 테마의 영상.</span></div>
+            </div>
+        </div>
+
+        <!-- 03. Canvas -->
+        <div class="module-container" id="mod3">
+            <h2>03. Canvas (창의적 집필 및 편집)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 51</span><span class="prompt-text">이 설교 원고를 Canvas에 띄워줘. 전체적인 문맥을 더 부드러운 구어체로 다듬고, 적절한 예화 삽입 위치를 추천해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 52</span><span class="prompt-text">작성된 청년부 성경공부 교안을 Canvas에서 '초등부 4학년' 수준으로 변경해 줘. 난이도를 낮추고 활동 질문을 추가해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 53</span><span class="prompt-text">텍스트로 적어둔 월별 주요 행사들을 Canvas를 열어 깔끔한 표(Table) 형태로 디자인하고, 담당 부서 칸을 추가해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 54</span><span class="prompt-text">Canvas에 있는 이 목회 칼럼의 길이를 정확히 주보 게재용 크기인 600자로 요약해 주고, 독창적인 부제목 3개를 달아줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 55</span><span class="prompt-text">이번 주 심방한 5가정의 메모를 Canvas에 열어. '가족 사항, 주요 기도 제목, 말씀 권면'으로 카테고리를 분류해 정돈해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 56</span><span class="prompt-text">교회 홈페이지 메인 화면에 들어갈 '담임목사 환영사'를 Canvas에서 작성하고, 웹팀에 보낼 수 있게 간단한 HTML로 감싸줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 57</span><span class="prompt-text">장례식 3일장(위로 예배, 입관 예배, 발인 예배)의 표준 식순과 대표 기도문 초안을 Canvas에 통합 문서로 일목요연하게 작성해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 58</span><span class="prompt-text">당회 회의록 텍스트를 Canvas에 띄워. 불필요한 중복 대화는 삭제하고 이번 주까지 처리해야 할 업무 리스트를 체크박스로 만들어.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 59</span><span class="prompt-text">가을 전도 축제 초청장 문구를 Canvas에서 3가지 버전(감성형, 직관형, 스토리텔링형)으로 작성해 두고 나란히 비교해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 60</span><span class="prompt-text">성도들이 자주 묻는 이단 관련 질문 5가지를 Canvas에 올렸어. 정통 교단 관점의 답변을 Q&A 형식 매뉴얼로 다듬어 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 61</span><span class="prompt-text">교회 정관 및 요람 개정안 초안을 Canvas에 작성해 줘. 기존 조항과 변경 조항을 대조표 형태로 명확하게 시각화해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 62</span><span class="prompt-text">올해 우리 교회 영표인 '은혜로 서는 교회'를 주제로 한 4주 연속 특별 새벽기도회 설교 시리즈의 아웃라인을 Canvas에서 짜줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 63</span><span class="prompt-text">단기 선교 팀원들을 위한 현지 문화 주의사항 및 긴급 연락처 매뉴얼을 가독성 높은 체크리스트 형태로 Canvas에 구성해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 64</span><span class="prompt-text">성탄절 축하 행사 연극 대본(등장인물 5명, 분량 15분)을 Canvas에서 작성하고, 각 대사마다 배우의 감정 선 지침을 괄호로 넣어줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 65</span><span class="prompt-text">매일 성경 읽기표(1년 1독 코스)를 구약과 신약을 균형 있게 배치하여 Canvas에서 세련된 인쇄용 체크포인트 문서로 만들어.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 66</span><span class="prompt-text">새가족 5주 양육 과정의 매 주차별 핵심 강의 요약과 나눔 질문지를 교사용 지침서 양식으로 Canvas에서 편찬해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 67</span><span class="prompt-text">교회 장기 발전 기획서(5개년 계획)의 비전 체계도를 Canvas에 그리드 레이아웃을 활용해 구조적으로 보기 좋게 작성해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 68</span><span class="prompt-text">기독교 결혼식 주례사 초안을 Canvas에 작성해. 신랑과 신부에게 각각 당부하는 성경적 권면을 균형 있게 안배해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 69</span><span class="prompt-text">교회 봉사자(교사, 주차, 안내 등)들을 위한 사역 수칙과 마음가짐을 담은 '사역자 서약서 및 가이드라인'을 Canvas에서 작성해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 70</span><span class="prompt-text">금주 구역 공과 교재의 본문 묵상 노트를 소그룹 리더들이 인도하기 쉽도록 발문(Questioning) 중심의 스크립트로 Canvas에서 수정해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 71</span><span class="prompt-text">예배 위원(대표기도자, 봉헌자)들을 위한 주일 예배 준비 및 대기 수칙 매뉴얼을 Canvas에서 한 장짜리 요약본으로 리포맷해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 72</span><span class="prompt-text">목회자 세금 신고(종교인 과세)를 위한 주간 지출 증빙 항목 분류 및 가이드를 Canvas를 활용해 회계 초보자용으로 쉽게 정리해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 73</span><span class="prompt-text">지역 사회 복지관과 연계한 '독거노인 반찬 봉사 프로젝트'의 협력 제안서 초안을 Canvas에 비즈니스 문서 양식으로 작성해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 74</span><span class="prompt-text">교회 설립 18주년 기념 사사(역사관)에 들어갈 연혁과 주요 발자취 텍스트를 연도별 타임라인 스타일로 Canvas에서 정렬해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 75</span><span class="prompt-text">새신자가 등록 후 교회를 투어할 때 동선을 따라 설명해야 할 '교회 공간 도슨트 가이드북'을 Canvas에서 스토리텔링식으로 써줘.</span></div>
+            </div>
+        </div>
+
+        <!-- 04. Deep Research -->
+        <div class="module-container" id="mod4">
+            <h2>04. Deep Research (심층 지식 탐색)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 76</span><span class="prompt-text">Deep Research: 우리 교회가 위치한 지역의 최근 3년간 인구 통계 변화와 1인 가구 비율을 분석하여 선교 보고서를 써줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 77</span><span class="prompt-text">Deep Research: 마태복음 16장 18절의 '반석'에 대하여 3~4세기 교부들(어거스틴, 크리소스톰 등)의 주석을 비교 연구해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 78</span><span class="prompt-text">Deep Research: '코로나 이후 한국 교회 출석률 변화 및 가나안 성도 현황'에 대해 발표된 최근 2년 내의 신학 논문들을 요약해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 79</span><span class="prompt-text">Deep Research: C.S. 루이스의 저작 중 '고통의 문제'와 관련하여 주일 설교(주제: 고난 속의 인내)에 인용할 핵심 문단을 찾아줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 80</span><span class="prompt-text">Deep Research: 최근 신학계의 화두인 '인공지능(AI) 발전과 기독교 인간관'에 대한 국내외 주요 논조와 성명서를 수집해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 81</span><span class="prompt-text">Deep Research: 1세기 바울 사역 당시 '에베소'의 경제적 상황(은장색 폭동)과 아데미 숭배가 초기 교회에 미친 영향을 조사해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 82</span><span class="prompt-text">Deep Research: 현재 10대인 '알파 세대'의 심리적 결핍 특성과 종교에 대한 인식 구조를 최신 사회학적 데이터로 검색해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 83</span><span class="prompt-text">Deep Research: 미국 새들백 교회나 윌로우크릭 교회의 '소그룹(Cell) 사역의 역사적 전환 및 최근 트렌드'를 심층 분석해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 84</span><span class="prompt-text">Deep Research: 현대 뇌과학과 신경학에서 밝혀낸 '기도와 명상'이 인간 전두엽에 미치는 긍정적 효과를 성경적 묵상과 연결해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 85</span><span class="prompt-text">Deep Research: 특정 이단(예: 신천지)이 요한계시록 14장을 해석하는 왜곡된 교리의 핵심을 파악하고 정통 신학적 반박 논리를 세워줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 86</span><span class="prompt-text">Deep Research: '개혁주의 사관에서 본 종교개혁자들의 예배 의식 비교'(루터, 칼빈, 츠빙글리) 연구 자료를 찾아 핵심 요약해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 87</span><span class="prompt-text">Deep Research: 한국 기독교 초기 선교사(언더우드, 아펜젤러)들의 초기 선교 편지 중 '조선의 영적 상황'을 묘사한 부분을 발췌해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 88</span><span class="prompt-text">Deep Research: 최근 3년간 국내 기독교 대안학교들의 운영 현황과 성공적인 기독교 대안 교육 모델의 공통 요인을 분석해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 89</span><span class="prompt-text">Deep Research: 구약 성경의 '희년(Jubilee)' 제도가 현대 토지 정의 및 경제 윤리에 어떻게 적용될 수 있는지 학술적 견해를 정리해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 90</span><span class="prompt-text">Deep Research: 현대 사회의 '기후 변화 및 환경 위기'에 대처하는 에코-시올로지(Eco-Theology, 생태신학)의 최신 논의 동향을 파악해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 91</span><span class="prompt-text">Deep Research: 초기 기독교의 '카타콤' 공동체가 로마 제국의 박해 속에서도 폭발적으로 성장할 수 있었던 사회학적 요인을 조사해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 92</span><span class="prompt-text">Deep Research: 현대 가정이 해체되는 상황에서 '가정 신앙 교육'을 성공적으로 정착시킨 국내외 교회들의 벤치마킹 사례를 찾아줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 93</span><span class="prompt-text">Deep Research: 구약 시대 고대 근동(종족주의, 함무라비 법전 등)의 문화적 배경과 모세 오경의 율법이 갖는 차별적 우월성을 논증해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 94</span><span class="prompt-text">Deep Research: '중독(스마트폰, 도박, 알코올)'의 메커니즘을 영적 탈진의 관점에서 분석한 기독교 상담학적 논문들을 리서치해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 95</span><span class="prompt-text">Deep Research: 한국 사회의 고령화 격돌 속에서 교회가 감당해야 할 '실버 사역(노인 사역)'의 혁신적인 대안 모델들을 수집해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 96</span><span class="prompt-text">Deep Research: 디트리히 본회퍼가 말한 '값싼 은혜'와 '제자도'의 개념이 현대 자본주의 사회의 성도들에게 주는 메시지를 심층 탐구해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 97</span><span class="prompt-text">Deep Research: 세계 선교 역사상 가장 효과적이었던 '미전도 종족(Unreached People Groups) 선교'의 전략적 변천사를 정리해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 98</span><span class="prompt-text">Deep Research: '기독교 신학에서 본 고난의 신비(Theodicy, 신정론)'에 대해 한스 큉과 위르겐 몰트만의 사상을 비교 분석해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 99</span><span class="prompt-text">Deep Research: 메타버스와 가상 현실 공간 안에서 이루어지는 '디지털 교회(Digital Church)'의 신학적 정당성 논쟁을 리서치해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 100</span><span class="prompt-text">Deep Research: 성경의 역사적 신뢰성을 증명하는 최신 고고학적 발견(예: 다윗 왕조의 비문, 사해 문서 등)의 성과들을 종합해 줘.</span></div>
+            </div>
+        </div>
+
+        <!-- 05. 음악 만들기 -->
+        <div class="module-container" id="mod5">
+            <h2>05. 음악 만들기 (Music Generation)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 101</span><span class="prompt-text">새벽 기도회 시간에 배경으로 재생할 매우 은은하고 은혜로운 신시사이저 패드 사운드 기반의 앰비언트 묵상 곡. (보컬 없음)</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 102</span><span class="prompt-text">주일학교 어린이들이 신나게 율동할 수 있는 120 BPM의 밝고 경쾌한 팝 비트. 맑은 실로폰과 통통 튀는 베이스 사운드 중심.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 103</span><span class="prompt-text">성찬식의 엄숙함에 어울리는 차분하고 깊이 있는 현악 4중주(String Quartet) 클래식 연주곡. 마이너에서 메이저로 전환되는 구성.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 104</span><span class="prompt-text">청년부 금요 집회 오프닝용. 강렬한 일렉트릭 기타 리프와 파워풀한 드럼 비트가 돋보이는 모던 워십 스타일 인트로.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 105</span><span class="prompt-text">교회 로비와 북카페에 은은하게 틀어둘 따뜻하고 빈티지한 로파이(Lo-Fi) 비트와 재즈 피아노가 결합된 편안한 음악.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 106</span><span class="prompt-text">설교 후 통성기도로 나아갈 때 감정을 고조시키는 서사적인 오케스트레이션. 풍부한 스트링 섹션과 웅장한 호른 사운드.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 107</span><span class="prompt-text">시편 23편 성경 낭독 배경음. 서양의 잔잔한 피아노 선율 위에 동양의 대금 소리가 신비롭게 얹어지는 국악 퓨전 연주곡.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 108</span><span class="prompt-text">새가족 환영식의 기쁜 분위기를 돋우는 밝고 따뜻한 인디 팝 스타일 곡. 어쿠스틱 기타와 핑거 스냅 사운드가 돋보이는 구성.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 109</span><span class="prompt-text">장례식/위로 예배 시작 전에 유가족의 슬픔을 만져주는 깊고 낮은 선율의 느린 첼로 독주곡. 소망의 뉘앙스를 담은 곡조.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 110</span><span class="prompt-text">여름 수련회 홍보 영상의 배경으로 삽입할 15초 분량의 중독성 있고 트렌디한 트로피컬 하우스 기반의 시원한 일렉트로닉 멜로디.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 111</span><span class="prompt-text">성탄절 분위기를 가득 담은 벨 사운드와 브라스 콰르텟이 연주하는 따뜻하고 포근한 스윙 재즈풍 크리스마스 연주곡.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 112</span><span class="prompt-text">종교개혁 주일 예배용. 마틴 루터의 '내 주는 강한 성이요' 멜로디를 모티브로 한 장엄한 파이프 오르간과 트럼펫 협주곡.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 113</span><span class="prompt-text">야외 야유회 및 전교인 체육대회 쉬는 시간에 어울리는 컨트리 풍의 신나는 어쿠스틱 기타와 밴조 연주곡.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 114</span><span class="prompt-text">청각 장애인을 위한 수어 찬양 영상 배경에 깔릴, 박자감이 정확하고 베이스가 강조된 미니멀하고 깨끗한 피아노 루프 비트.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 115</span><span class="prompt-text">고난 주간 특별 기도회를 위한 매우 무겁고 진중한 톤의 피아노와 비올라 듀엣곡. 침묵과 성찰의 분위기를 자아냄.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 116</span><span class="prompt-text">청소년 겨울 캠프 엔딩에 어울리는 감동적이고 가슴이 벅차오르는 EDM 팝 사운드. 신시사이저 빌드업과 드롭이 확실한 구조.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 117</span><span class="prompt-text">가정 예배용으로 집안에 틀어놓기 좋은, 편안하고 잔잔한 나일론 기타 독주곡. 마음을 평온하게 해주는 70BPM의 속도.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 118</span><span class="prompt-text">교회 창립 기념 예배 영상용. 교회의 역사적 발자취를 보여주는 슬라이드 쇼에 맞는 점진적으로 웅장해지는 뉴에이지 피아노곡.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 119</span><span class="prompt-text">미전도 종족 전도 영상용. 아프리카나 중동 풍의 전통 타악기 리듬과 현대적인 패드 사운드가 결합된 에스닉 워십 비트.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 120</span><span class="prompt-text">어린아이의 여름성경학교 아침 깨우기 음악. 플루트와 실로폰이 연주하는 새소리 느낌의 아기자기하고 귀여운 기상 음악.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 121</span><span class="prompt-text">단기 선교 팀원들의 묵상(QT) 시간에 어울리는 자연의 소리(파도 소리, 숲의 바람 소리)가 섞인 잔잔한 클래식 기타 음원.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 122</span><span class="prompt-text">치유 사역 및 환우를 위한 기도회용. 자극적인 고음 없이 주파수가 안정적이고 마음을 차분하게 가라앉히는 명상적인 음악.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 123</span><span class="prompt-text">성경 통독 주간 배경음. 성경 읽기에 방해가 되지 않도록 일정한 패턴이 반복되는 미니멀리즘 피아노 앰비언트 사운드.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 124</span><span class="prompt-text">신년 감사 예배 오프닝용. 힘찬 팀파니 연주와 오케스트라 튜닝 사운드로 시작해 환희로 가득 차오르는 웅장한 클래식 서곡.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 125</span><span class="prompt-text">교회 청년들의 기독교 힙합 문화 행사를 위한 붐뱁(Boom Bap) 스타일의 올드스쿨 비트. 드럼 타격감이 묵직하고 클래식한 분위기.</span></div>
+            </div>
+        </div>
+
+        <!-- 06. 가이드 학습 -->
+        <div class="module-container" id="mod6">
+            <h2>06. 가이드 학습 (Guided Learning & Tutoring)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 126</span><span class="prompt-text">나의 히브리어/헬라어 튜터가 되어줘. 창세기 1장 1절부터 매일 한 절씩 원어 문법 파싱과 단어 뜻을 단계별로 가르쳐 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 127</span><span class="prompt-text">교회 내 갈등 중재법을 배우고 싶어. 네가 불평이 많은 성도 역할을 맡아 상황극을 진행해 줘. 내 답변에 피드백을 다오.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 128</span><span class="prompt-text">새신자 세례 문답 교육을 해야 해. 네가 초신자 역할을 맡아 신앙의 기초 질문을 던지면, 내가 알기 쉽게 설명하는 훈련을 하자.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 129</span><span class="prompt-text">웨스트민스터 신앙고백을 바탕으로 조직신학 '구원론'의 핵심 과정을 하루에 하나씩 강의해 주고 이해도 테스트 퀴즈를 내줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 130</span><span class="prompt-text">제시된 설교 원고의 수사학적 구조를 평가해 줘. 논리적 연결이 어색한 부분을 짚어주고 개선 방안을 코칭해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 131</span><span class="prompt-text">바울의 전도 여행(1차~3차) 경로와 각 도시에서 일어난 사건에 대한 사지선다형 지리 퀴즈를 연속으로 출제해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 132</span><span class="prompt-text">네가 이단 교리에 미혹되어 흔들리는 청년 역할을 해줘. 내가 정통 성경 신학으로 권면할 테니 내 변증의 타당성을 평가해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 133</span><span class="prompt-text">학교 폭력이나 정서적 불안을 겪는 청소년 성도를 상담하는 스킬을 배우고 싶어. 상담 초기 라포 형성 단계 규칙을 가르쳐 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 134</span><span class="prompt-text">목회자 은퇴를 10년 앞두고 은퇴 사역을 기획 중이야. 시니어 사역 전문가로서 내가 준비해야 할 역량 개발 단계를 알려줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 135</span><span class="prompt-text">제시된 복잡한 영어 신학 문장의 구문론적 구조를 분석해 주고 한국어로 매끄럽게 번역하는 법을 코칭해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 136</span><span class="prompt-text">교회 소그룹 인도법(GBS 리더 스킬) 가이드를 배우고 싶어. 말이 너무 많은 구역원 대처법 등 5가지 돌발 상황 대응법을 가르쳐 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 137</span><span class="prompt-text">기독교 변증학 기초 과정을 학습하고 싶어. 무신론자들의 대표적인 질문 '세상의 악과 고통'에 대해 답하는 법을 가이드해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 138</span><span class="prompt-text">주보 및 교회 소식지 편집 디자인 규칙을 배우고 싶어. 폰트 선정, 여백 활용, 가독성을 높이는 레이아웃의 기본 원칙을 알려줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 139</span><span class="prompt-text">네가 낙심하여 교회를 떠나려는 가나안 성도 역할을 해줘. 목회자로서 진정성 있게 다가가는 대화법을 실전처럼 시뮬레이션하자.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 140</span><span class="prompt-text">성경적 재정 관리(십일조, 헌금, 구제)를 성도들에게 가르치기 위한 교안을 작성 중이야. 핵심 성경 구절과 교육 교수법을 가이드해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 141</span><span class="prompt-text">교회 멀티미디어(방송실 음향, 영상 변환) 시스템 운영 기초를 독학하고 싶어. 디지털 믹서 설정과 이퀄라이저 조절의 기본을 알려줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 142</span><span class="prompt-text">설교 스피치(발성, 제스처, 시선 처리)를 교정하고 싶어. 내가 설교 대본을 읽는다고 가정하고, 대중 스피치의 핵심 가이드를 제공해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 143</span><span class="prompt-text">어린아이의 주일학교 공과 공부 때 사용할 '하브루타 대화법(질문 중심 교육)'을 마스터하고 싶어. 교사를 위한 질문 생성법을 코칭해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 144</span><span class="prompt-text">교회 개척을 준비하는 목회자를 위한 행정 가이드가 필요해. 세무서 고유번호증 발급부터 통장 개설까지 행정 절차를 단계별로 교육해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 145</span><span class="prompt-text">신약 성경의 배경이 되는 '중간사(말라기~마태복음 사이 400년)'의 핵심 역사와 정치 종교 분파(바리새, 사두개 등)를 가르쳐 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 146</span><span class="prompt-text">성도들의 중독 사역(인터넷, 스마트폰) 치유를 돕는 상담 목회 가이드를 학습하고 싶어. 인지행동치료(CBT)를 접목한 성경적 상담법은?</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 147</span><span class="prompt-text">신학적 글쓰기(소논문, 목회 논단) 서론 작성법을 배우고 싶어. 연구 목적과 문제 제기를 명확하게 기술하는 서술 가이드를 다오.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 148</span><span class="prompt-text">절기별(부활절, 추수감사절, 성탄절) 강단 꽃꽂이 및 공간 인테리어의 미학적 원리와 메시지 결합법을 가이드 양식으로 설명해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 149</span><span class="prompt-text">교회 소그룹 안에서 일어나는 개인정보 및 비밀 보장 수칙에 대해 리더들을 교육하려 해. 목회 윤리 관점의 행동 지침 가이드를 짜줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 150</span><span class="prompt-text">성경 신학 관점에서 '창세기 1~11장 원역사'를 주해하는 학파별 시각(역사적, 문학적, 상징적)을 객관적으로 비교 강의해 줘.</span></div>
+            </div>
+        </div>
+
+        <!-- 07. Gems -->
+        <div class="module-container" id="mod7">
+            <h2>07. Gems (맞춤형 인공지능 비서 구축)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 151</span><span class="prompt-text">Gem 세팅: 너는 세계 최고의 개혁주의 신학자야. 내가 성경 구절을 입력하면 즉시 원어 파싱, 역사적 배경, 3대지 설교 개요를 출력해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 152</span><span class="prompt-text">Gem 세팅: 너는 깊은 공감 능력을 지닌 목회 상담가야. 성도의 상황과 아픔을 입력하면 진심 어린 1분 심방 기도문을 작성해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 153</span><span class="prompt-text">Gem 세팅: 너는 유능한 교회 행정 서기야. 회의 메모나 행사 개요만 던져주면 공식 공문서 및 기안문 양식으로 즉시 변환해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 154</span><span class="prompt-text">Gem 세팅: 너는 주일학교 레크리에이션 전문가야. 성경 본문이나 인물을 입력하면 초성 퀴즈, 넌센스 퀴즈 10개를 자동 생성해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 155</span><span class="prompt-text">Gem 세팅: 너는 철저한 문장 교정 전문가야. 주보 원고를 붙여넣으면 오탈자, 띄어쓰기는 물론 성경 구절의 인용 정확도를 검수해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 156</span><span class="prompt-text">Gem 세팅: 성도의 나이, 직업, 등록 주차를 입력하면 부담스럽지 않으면서도 따뜻한 새가족 맞춤 안부 카톡 초안을 자동으로 써줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 157</span><span class="prompt-text">Gem 세팅: 너는 베테랑 찬양 인도자야. 주일 설교 주제와 본문을 입력하면 흐름이 자연스럽고 신학적으로 일치하는 찬양 콘티 4곡을 짜줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 158</span><span class="prompt-text">Gem 세팅: 특정 이단의 주장이나 변칙 교리를 입력하면 정통 개혁주의 신학에 입각해 반박 성경 구절 3개와 반증 논리를 세워줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 159</span><span class="prompt-text">Gem 세팅: 추상적 설교 주제(예: 온유, 충성)를 입력하면 뉴스, 역사, 과학, 문학 등 4가지 영역에서 최신 예화를 하나씩 매칭해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 160</span><span class="prompt-text">Gem 세팅: 절기나 행사 이름을 입력하면, 타성에 젖지 않은 참신하고 파격적인 교회 문화 프로그램 아이디어 5가지를 브레인스토밍해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 161</span><span class="prompt-text">Gem 세팅: 너는 교회 예산 및 재정 분석가야. 숫자 데이터를 입력하면 항목별 집행률과 예산 절감 포인트를 보고서 양식으로 도출해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 162</span><span class="prompt-text">Gem 세팅: 기독교 서적의 도서명과 저자를 입력하면, 핵심 논지 3가지와 목회적 시사점 및 한계점을 분석하는 서평 비서 봇.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 163</span><span class="prompt-text">Gem 세팅: 너는 기독교 변증학자야. 불신자들이 제기하는 기독교에 대한 날카로운 비판 질문에 대해 정중하고 논리적인 답변을 구성해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 164</span><span class="prompt-text">Gem 세팅: 교회 장례 발생 시 고인의 연세와 신앙 이력을 입력하면, 위로-입관-발인-하관 예배별 맞춤형 조사와 위로사 초안을 작성해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 165</span><span class="prompt-text">Gem 세팅: 주일학교 교사들이 공과 공부 모임 전에 읽을 수 있도록, 해당 주차 본문의 핵심 신학 포인트와 아동 심리 맞춤 교수법 요약 봇.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 166</span><span class="prompt-text">Gem 세팅: 단기 선교 국가와 지역명을 입력하면 해당 지역의 종교적 특성, 문화적 금기사항, 보안 주의점을 브리핑해 주는 선교 비서.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 167</span><span class="prompt-text">Gem 세팅: 너는 기독교 영상 제작 PD야. 설교 핵심 요약 텍스트를 넣으면 유튜브 쇼츠(Shorts)용 1분 스크립트와 화면 연출 콘티를 짜줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 168</span><span class="prompt-text">Gem 세팅: 교회의 주간 사역 일정들과 부서별 요청 사항들을 나열하면, 우선순위와 동선을 고려해 목회자용 최적 주간 타임 테이블을 빌드해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 169</span><span class="prompt-text">Gem 세팅: 평신도 리더 훈련을 위한 실전 케이스 스터디(Case Study) 생성기. 소그룹 내 갈등 유발 유형별 대처 시나리오를 무한 출제해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 170</span><span class="prompt-text">Gem 세팅: 성경공부 교재 집필 비서. 특정 성경 권수를 정하면 소그룹원들이 스스로 답을 찾아갈 수 있는 귀납적 질문지 생성.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 171</span><span class="prompt-text">Gem 세팅: 교회 장기 결석자(낙심 성도)의 과거 사연과 연락 두절 기간을 입력하면 마음을 활짝 열 수 있는 감성적 권면 편지 초안 작성.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 172</span><span class="prompt-text">Gem 세팅: 너는 기독교 문화 트렌드 연구원이야. 현재 교계의 주요 이슈와 사회적 트렌드를 결합해 주간 목회 아이디어를 브리핑해 줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 173</span><span class="prompt-text">Gem 세팅: 교회 주방 및 식당 봉사 메뉴 기획 비서. 인원수와 예산을 입력하면 영양학적으로 균형 잡히고 조리가 용이한 대량 배식 레시피 짜줘.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 174</span><span class="prompt-text">Gem 세팅: 기독교 결혼 주례 비서. 신랑, 신부의 만남 계기와 신앙 비전을 입력하면 두 사람만을 위한 세상에 하나뿐인 맞춤 주례사 골격 작성.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 175</span><span class="prompt-text">Gem 세팅: 교회 도서관 도서 추천 비서. 성도들이 겪는 신앙적 방황이나 인생의 고민 키워드를 넣으면 알맞은 기독교 양서를 큐레이션해 줘.</span></div>
+            </div>
+        </div>
+
+        <!-- 08. New Gem / 새 Gem -->
+        <div class="module-container" id="mod8">
+            <h2>08. New Gem / 새 Gem (실시간 & 모바일 활용)</h2>
+            <div class="prompt-stack">
+                <div class="prompt-card"><span class="prompt-id">예문 176</span><span class="prompt-text">운전 중 제미나이 앱에 음성으로 '심방 비서 Gem' 연결해 줘. 10분 뒤 대면할 김 집사님의 지난 수술 이력과 기도 제목 브리핑해.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 177</span><span class="prompt-text">외국인 성도 심방 시 모바일 제미나이의 실시간 대화 모드를 켜서 목회자의 영적 권면과 기도를 해당 국가 언어로 자연스럽게 실시간 통역.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 178</span><span class="prompt-text">스마트폰으로 교회 비품 영수증 사진들을 찍어 올리며 '재정 보고 Gem' 실행해 줘. 지출 날짜, 품목, 금액을 표로 정리해 엑셀로 내보내.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 179</span><span class="prompt-text">예배 후 로비에서 성도들과 나눈 대화와 구두 기도 제목들을 즉시 음성으로 제미나이에 녹음하고 '구역별 주간 기도 노트'로 자동 텍스트화.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 180</span><span class="prompt-text">예배 직후 유튜브 실시간 중계 녹화본 링크를 넣고 '오늘 내 설교의 말하기 속도, 발음 정확도, 전달력 약화 구간을 인공지능으로 피드백해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 181</span><span class="prompt-text">전교인 성경 필사 노트 페이지를 사진으로 찍어 올리며 '성경 개역개정 원문과 대조하여 한 글자라도 틀린 오탈자가 있는지 실시간 검수해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 182</span><span class="prompt-text">매일 밤 스마트폰 메모장에 적은 목회 회고 일기를 일주일 단위로 Gem에 전송해 '내 심리적 탈진 상태를 체크하고 영적 위로 문장 도출해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 183</span><span class="prompt-text">모바일 GPS 위치를 공유하며 '우리 교회 반경 1km 이내의 신축 아파트 단지 특성과 젊은 부부 타겟 전도용 거점 스팟 리스트 맵핑해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 184</span><span class="prompt-text">지역 내 태풍이나 수해 등 긴급 재난 발생 시 모바일로 즉시 성도 안전 확인 및 예배당 대피소 안내를 담은 다급하지만 정중한 긴급 단체문자 작성.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 185</span><span class="prompt-text">수련회 현장에서 돌발 사고 발생 시 음성으로 경위를 녹음해 보내고 '올해 수련회 백서 및 위기 대응 매뉴얼 개정안에 이 케이스를 즉시 추가해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 186</span><span class="prompt-text">주일 아침 차량 운행 직전 스마트폰에 오늘 코스를 말하며 '교회 탑차가 80대 이상 성도님들 5 가정을 가장 빠른 동선으로 모셔오는 최적 루트 짜줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 187</span><span class="prompt-text">새벽 기도 설교 직전, 강단 위에서 스마트폰 카메라로 오늘 본문을 스캔하고 '이 구절과 연동되는 구약의 메시아 예언 구절 2개를 급히 찾아 띄워줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 188</span><span class="prompt-text">교회 주차장에 처음 보는 차량이 장기 주차되어 있을 때 번호판을 사진 찍어 올리며 '주차 관리 규칙 양식에 맞춘 장기 방치 차량 경고문 스티커 문구 써줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 189</span><span class="prompt-text">지역 사회 주민 초청 바자회 현장에서 스마트폰으로 매대 풍경을 찍어 올리며 '우리 교회 당근마켓 동네생활 커뮤니티에 올릴 생생한 홍보 카피 작성해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 190</span><span class="prompt-text">심방 가정의 대문이나 가택 내부 인테리어 사진을 승인 하에 찍어 올리며 '이 가정의 분위기에 가장 잘 어울리는 축복과 번영의 성경 구절 액자 문구 추천해'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 191</span><span class="prompt-text">성도들과의 성경 대화 중 즉석에서 난해한 질문이 나왔을 때, 모바일 제미나이 실시간 음성 검색으로 30초 내 명확한 신학적 답변 요약.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 192</span><span class="prompt-text">농어촌 선교 현장에서 노후된 예배당 벽면 균열 사진을 스마트폰으로 촬영해 올리며 '안전진단 전문가 관점에서 긴급 보수가 필요한 등급인지 일차 판별해줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 193</span><span class="prompt-text">주일학교 야외 야유회 중 갑자기 비가 쏟아질 때 모바일 제미나이에 '실내에서 아이들 30명과 즉석에서 진행할 수 있는 준비물 없는 성경 게임 3개 짜줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 194</span><span class="prompt-text">새신자가 등록 카드를 작성하자마자 폰카로 스캔해 올리며 '이 성도님의 관심사인 영성 형성에 맞춘 우리 교회 훈련 과정 추천 매칭 레터를 즉시 작성해'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 195</span><span class="prompt-text">심방 가기 전 차 안에서 오늘 부를 찬송가 번호를 음성으로 치며 '이 찬송가의 작사/작곡 비하인드 스토리와 영적 배경을 1분 내로 요약해서 들려줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 196</span><span class="prompt-text">교회 벽면에 게시할 주간 성구 보드를 폰으로 촬영하여 올리며 '디자인 전문가 관점에서 가독성을 해치는 폰트 배치나 자간 문제가 있다면 교정안 제안해'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 197</span><span class="prompt-text">지역 아동센터 봉사 사역 중 아이들의 돌발 행동이 발생했을 때 현장 상황을 음성으로 신속히 설명하고 '아동 상담가로서 취해야 할 즉각적 1차 훈육 가이드 멘트 짜줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 198</span><span class="prompt-text">성탄절 칸타타 연습 영상을 스마트폰으로 짧게 촬영해 올린 후 '성가대 지휘자 관점에서 솔리스트와 합창단의 음정 및 호흡 밸런스가 흐트러진 지점 피드백해'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 199</span><span class="prompt-text">교회 옥상 방수 공사 업체의 견적서 서류를 스마트폰으로 스캔하여 올리며 '건축 행정 전문가 관점에서 과다 청구되었거나 누락된 필수 시공 항목이 있는지 예리하게 찾아줘'.</span></div>
+                <div class="prompt-card"><span class="prompt-id">예문 200</span><span class="prompt-text">오늘 하루 모든 사역을 마치고 퇴근하는 차 안에서 음성으로 주간 사역 소회를 자유롭게 독백하듯 녹음하고 '이 음성을 정갈한 목회 일기문 형태로 문체 변환해 저장해줘'.</span></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var checkStability = function() {
+                var gridItems = document.querySelectorAll('.prompt-card');
+                if (gridItems.length > 0) {
+                    console.log("✠ HIS 시스템: Earthy Green 테마의 1-Column 인터랙티브 대시보드가 성공적으로 컴파일되었습니다.");
+                }
+            };
+            checkStability();
+        });
+    </script>
+</body>
+</html>
